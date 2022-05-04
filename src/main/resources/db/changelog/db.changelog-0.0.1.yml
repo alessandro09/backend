@@ -1,0 +1,157 @@
+databaseChangeLog:
+  - changeSet:
+     id: create-tables
+     author:  alessandro.abegg
+     changes:
+       - createTable:
+           tableName: origin  
+           columns:
+             - column:  
+                 name: year
+                 type: int
+                 constraints:
+                   nullable: false
+             - column:
+                 name: title
+                 type: varchar(200)
+             - column:
+                 name: studios
+                 type: varchar(200)
+             - column:
+                 name: producers
+                 type: varchar(200)
+                 constraints:
+                   nullable: false
+             - column:
+                 name: winner
+                 type: boolean
+       - createTable:
+           tableName: studio  
+           columns:
+             - column:  
+                 name: id
+                 type: bigint
+                 autoIncrement: true
+                 constraints:
+                   nullable: false
+                   primaryKey: true
+             - column:
+                 name: name
+                 type: varchar(200)
+       - createTable:
+           tableName: producer  
+           columns:
+             - column:  
+                 name: id
+                 type: bigint
+                 autoIncrement: true
+                 constraints:
+                   nullable: false
+                   primaryKey: true
+             - column:
+                 name: name
+                 type: varchar(200)
+       - createTable:
+           tableName: movie  
+           columns:
+             - column:  
+                 name: id
+                 type: bigint
+                 autoIncrement: true
+                 constraints:
+                   nullable: false
+                   primaryKey: true
+             - column:  
+                 name: year
+                 type: int
+                 constraints:
+                   nullable: false
+             - column:  
+                 name: title
+                 type: varchar(200)
+                 constraints:
+                   nullable: false
+             - column:
+                 name: id_studio
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_studio
+                   references: studio(id)
+             - column:
+                 name: id_producer
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_producer
+                   references: producer(id)
+             - column:
+                 name: winner
+                 type: boolean
+
+
+  - changeSet:
+     id: import-from-csv
+     author:  alessandro.abegg
+     changes:
+       - loadData:
+           encoding: UTF-8
+           file: movielist.csv
+           separator: ;
+           usePreparedStatements: true
+           tableName: origin
+           columns:
+             - column:
+               header: year
+               type: int
+             - column:
+               header: title
+               type: varchat(100)
+             - column:
+               header: studios
+               type: varchat(100)
+             - column:
+               header: producers
+               type: varchat(100)
+             - column:
+               header: winner
+               type: boolean
+
+  - changeSet:
+     id: load-studio
+     author:  alessandro.abegg
+     changes:
+       - sql:
+           sql: "
+             INSERT INTO STUDIO(NAME)
+             SELECT DISTINCT STUDIOS FROM ORIGIN"
+
+  - changeSet:
+     id: load-producer
+     author:  alessandro.abegg
+     changes:
+       - sql:
+           sql: "
+             INSERT INTO PRODUCER(NAME)
+             SELECT DISTINCT PRODUCERS FROM ORIGIN"
+
+  - changeSet:
+     id: load-movie
+     author:  alessandro.abegg
+     changes:
+       - sql:
+           sql: "
+             INSERT INTO MOVIE(YEAR, TITLE, WINNER, ID_STUDIO, ID_PRODUCER)
+             SELECT YEAR,
+                    TITLE,
+                    WINNER,
+                    SELECT ID FROM STUDIO WHERE NAME = STUDIOS,
+                    SELECT ID FROM PRODUCER WHERE NAME = PRODUCERS
+               FROM ORIGIN"
+
+  - changeSet:
+      id:  dropTable-origin
+      author:  liquibase-docs
+      changes:  
+        - dropTable:
+            tableName:  origin
