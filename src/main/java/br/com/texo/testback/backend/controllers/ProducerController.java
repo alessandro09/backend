@@ -16,9 +16,8 @@ public class ProducerController {
 	@Autowired
 	private ProducerService producerService;
 	
-	@GetMapping
-	@RequestMapping("extreme")
-	public ResponseBean findPaginated(ParametersBean parametersBean) {
+	@GetMapping("extreme-producer-awards")
+	public ResponseBean findExtremeProducerAwards(ParametersBean parametersBean) {
 		 return producerService.getExtremes(2);
 	}
 

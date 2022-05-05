@@ -1,25 +1,25 @@
-# Getting Started
+# Introdução
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Este projeto  visa responder o teste de habilidades repassado pela TexoIt voltado para o desenvolvedor fullstack.
+Foi desenvolvido utilizando spring boot, spring data, spring web, liquibase e h2. O principal objetivo é importar um arquivo csv para uma base de dados h2 e criar uma api para retornar os produtores cinematograficos com dois premios mais proximos / dois premios mais distantes respectivamente.
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#using-boot-devtools)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-jpa-and-spring-data)
+A cobertura de testes, conforme solicitado foi realizado com teste de integração apenas através do endpoint
 
-### Guides
-The following guides illustrate how to use some features concretely:
+# Passos para execução
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+A maineira mais fácil de executar é abrindo o terminal e executando o comando a baixo (Dependencias serão obtidas automaticamente):
 
-### Additional Links
-These additional references should also help you:
+`./gradlew bootRun`
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+Outra opção é importar o projeto para IDE de sua preferencia e executar `br.com.texo.testback.backend.BackendApplication`
 
+# Endpoints disponíveis e informações para acesso
+
+### Acesso ao console do h2
+http://localhost:8080/h2
+jdbc/url: jdbc:h2:./data/appdb
+usuário: admin
+senha: admin
+
+### Acesso ao endpoint da atividade
+http://localhost:8080/producer/extreme-producer-awards

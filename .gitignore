@@ -25,3 +25,9 @@ bin
 build
 data
 gradle
+/.gradle/
+
+.classpath
+.project
+.settings
+.~lock.*
