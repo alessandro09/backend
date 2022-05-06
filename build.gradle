@@ -18,8 +18,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.apache.httpcomponents:httpclient'
-	runtimeOnly 'com.h2database:h2'
-	implementation 'org.liquibase:liquibase-core'
+	runtimeOnly 'com.h2database:h2:2.1.212'
+	implementation 'org.liquibase:liquibase-core:4.9.1'
 }
 
 tasks.named('test') {

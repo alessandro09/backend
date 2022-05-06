@@ -1,7 +1,5 @@
 package br.com.texo.testback.backend.bean;
 
-import br.com.texo.testback.backend.projections.IntervalBetweenAwards;
-
 public class IntervalBetweenAwardsBean {
 	private Integer previousWin;
 	
@@ -12,14 +10,15 @@ public class IntervalBetweenAwardsBean {
 	private String producer;
 	
 	public IntervalBetweenAwardsBean() { /** Empty constructor */ }
-
-	public IntervalBetweenAwardsBean(IntervalBetweenAwards intervalBetweenAwards) {
-		previousWin = intervalBetweenAwards.getPreviousWin();
-		followingWin = intervalBetweenAwards.getFollowingWin();
-		interval = intervalBetweenAwards.getInterval();
-		producer = intervalBetweenAwards.getProducer();
-	}
 	
+	public IntervalBetweenAwardsBean(Integer previousWin, Integer followingWin, Integer interval, String producer) {
+		super();
+		this.previousWin = previousWin;
+		this.followingWin = followingWin;
+		this.interval = interval;
+		this.producer = producer;
+	}
+
 	public Integer getPreviousWin() { return previousWin; }
 
 	public void setPreviousWin(Integer previousWin) { this.previousWin = previousWin; }

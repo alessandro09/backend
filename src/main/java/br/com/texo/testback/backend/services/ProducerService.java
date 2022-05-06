@@ -1,23 +1,26 @@
 package br.com.texo.testback.backend.services;
 
-import static br.com.texo.testback.backend.services.components.ExtremeComponent.Interval.GREATER;
-import static br.com.texo.testback.backend.services.components.ExtremeComponent.Interval.LESS;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.texo.testback.backend.bean.ResponseBean;
-import br.com.texo.testback.backend.services.components.ExtremeComponent;
+import br.com.texo.testback.backend.repositories.ProducerRepository;
 
 @Service
 public class ProducerService {
 	
 	@Autowired
-	private ExtremeComponent extremeComponent;
+	private ProducerRepository producerRepository;
 	
 	public ResponseBean getExtremes(int size) {
-		var greater = extremeComponent.get(size, GREATER);
-		var less = extremeComponent.get(size, LESS);
+		var intervals = producerRepository.findIntervalAwards();
+		
+		int findQtd = intervals.size();
+		
+		if (findQtd < size) size = findQtd; 
+		
+		var greater = intervals.subList(0, size);
+		var less = intervals.subList(findQtd - size, findQtd);
 		
 		return new ResponseBean(less, greater);
 	}

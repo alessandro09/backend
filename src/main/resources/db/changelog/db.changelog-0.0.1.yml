@@ -4,32 +4,36 @@ databaseChangeLog:
      author:  alessandro.abegg
      changes:
        - createTable:
-           tableName: origin  
+           tableName: ORIGIN  
            columns:
              - column:  
-                 name: year
-                 type: int
+                 name: YEAR
+                 type: integer
                  constraints:
                    nullable: false
              - column:
-                 name: title
-                 type: varchar(200)
-             - column:
-                 name: studios
-                 type: varchar(200)
-             - column:
-                 name: producers
+                 name: TITLE
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: winner
+                 name: STUDIOS
+                 type: varchar(200)
+                 constraints:
+                   nullable: false
+             - column:
+                 name: PRODUCERS
+                 type: varchar(200)
+                 constraints:
+                   nullable: false
+             - column:
+                 name: WINNER
                  type: boolean
        - createTable:
-           tableName: studio  
+           tableName: STUDIO  
            columns:
              - column:  
-                 name: id
+                 name: ID
                  type: bigint
                  autoIncrement: true
                  constraints:
@@ -39,10 +43,10 @@ databaseChangeLog:
                  name: name
                  type: varchar(200)
        - createTable:
-           tableName: producer  
+           tableName: PRODUCER  
            columns:
              - column:  
-                 name: id
+                 name: ID
                  type: bigint
                  autoIncrement: true
                  constraints:
@@ -52,42 +56,76 @@ databaseChangeLog:
                  name: name
                  type: varchar(200)
        - createTable:
-           tableName: movie  
+           tableName: MOVIE  
            columns:
              - column:  
-                 name: id
+                 name: ID
                  type: bigint
                  autoIncrement: true
                  constraints:
                    nullable: false
                    primaryKey: true
              - column:  
-                 name: year
-                 type: int
+                 name: YEAR
+                 type: integer
                  constraints:
                    nullable: false
              - column:  
-                 name: title
+                 name: TITLE
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: id_studio
-                 type: bigint
-                 constraints:
-                   nullable: false
-                   foreignKeyName: fk_studio
-                   references: studio(id)
-             - column:
-                 name: id_producer
-                 type: bigint
-                 constraints:
-                   nullable: false
-                   foreignKeyName: fk_producer
-                   references: producer(id)
-             - column:
-                 name: winner
+                 name: WINNER
                  type: boolean
+       - createTable:
+           tableName: STUDIO_MOVIE
+           columns:
+             - column:  
+                 name: ID
+                 type: bigint
+                 autoIncrement: true
+                 constraints:
+                   nullable: false
+                   primaryKey: true
+             - column:  
+                 name: ID_STUDIO
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_studio_studio
+                   references: STUDIO(ID)
+             - column:  
+                 name: ID_MOVIE
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_studio_movie
+                   references: MOVIE(ID)
+       - createTable:
+           tableName: producer_movie
+           columns:
+             - column:  
+                 name: ID
+                 type: bigint
+                 autoIncrement: true
+                 constraints:
+                   nullable: false
+                   primaryKey: true
+             - column:  
+                 name: ID_PRODUCER
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_producer_producer
+                   references: PRODUCER(ID)
+             - column:  
+                 name: ID_MOVIE
+                 type: bigint
+                 constraints:
+                   nullable: false
+                   foreignKeyName: fk_producer_movie
+                   references: MOVIE(ID)
 
 
   - changeSet:
@@ -99,59 +137,60 @@ databaseChangeLog:
            file: movielist.csv
            separator: ;
            usePreparedStatements: true
-           tableName: origin
+           tableName: ORIGIN
            columns:
              - column:
-               header: year
-               type: int
+               header: YEAR
+               type: integer
              - column:
-               header: title
+               header: TITLE
                type: varchat(100)
              - column:
-               header: studios
+               header: STUDIOS
                type: varchat(100)
              - column:
-               header: producers
+               header: PRODUCERS
                type: varchat(100)
              - column:
-               header: winner
+               header: WINNER
                type: boolean
 
   - changeSet:
-     id: load-studio
+     id: load-studios-and-producers
      author:  alessandro.abegg
      changes:
-       - sql:
-           sql: "
-             INSERT INTO STUDIO(NAME)
-             SELECT DISTINCT STUDIOS FROM ORIGIN"
+       - customChange:
+           class: br.com.texo.testback.backend.services.liquibase.CustomLoadStudiosAndProducers
 
   - changeSet:
-     id: load-producer
+     id: load-MOVIE
      author:  alessandro.abegg
      changes:
        - sql:
            sql: "
-             INSERT INTO PRODUCER(NAME)
-             SELECT DISTINCT PRODUCERS FROM ORIGIN"
-
-  - changeSet:
-     id: load-movie
-     author:  alessandro.abegg
-     changes:
-       - sql:
-           sql: "
-             INSERT INTO MOVIE(YEAR, TITLE, WINNER, ID_STUDIO, ID_PRODUCER)
-             SELECT YEAR,
+             INSERT INTO MOVIE(\"YEAR\", TITLE, WINNER)
+             SELECT \"YEAR\",
                     TITLE,
-                    WINNER,
-                    SELECT ID FROM STUDIO WHERE NAME = STUDIOS,
-                    SELECT ID FROM PRODUCER WHERE NAME = PRODUCERS
+                    WINNER
                FROM ORIGIN"
 
   - changeSet:
-      id:  dropTable-origin
-      author:  liquibase-docs
-      changes:  
-        - dropTable:
-            tableName:  origin
+     id: load-ref-movie-to-studio
+     author:  alessandro.abegg
+     changes:
+       - customChange:
+           class: br.com.texo.testback.backend.services.liquibase.CustomLoadStudiosAndProducers
+
+  - changeSet:
+     id: load-ref-movie
+     author:  alessandro.abegg
+     changes:
+       - customChange:
+           class: br.com.texo.testback.backend.services.liquibase.CustomSqlGenerateRefs
+
+#  - changeSet:
+#      id:  dropTable-ORIGIN
+#      author:  liquibase-docs
+#      changes:
+#        - dropTable:
+#            tableName:  ORIGIN
