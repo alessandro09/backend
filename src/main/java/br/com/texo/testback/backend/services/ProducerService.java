@@ -19,8 +19,8 @@ public class ProducerService {
 		
 		if (findQtd < size) size = findQtd; 
 		
-		var greater = intervals.subList(0, size);
-		var less = intervals.subList(findQtd - size, findQtd);
+		var greater = intervals.subList(findQtd - size, findQtd);
+		var less = intervals.subList(0, size);
 		
 		return new ResponseBean(less, greater);
 	}

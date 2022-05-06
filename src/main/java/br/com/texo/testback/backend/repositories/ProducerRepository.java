@@ -21,7 +21,8 @@ public interface ProducerRepository extends JpaRepository<Producer, Long> {
 			+ " INNER JOIN m.producerMovie as pm"
 			+ " INNER JOIN pm.producer as p"
 			+ " WHERE m.winner IS TRUE"
-			+ " GROUP BY p.id"
+			+ " GROUP BY p.id "
+			+ "HAVING MAX(m.year) <> MIN(m.year)"
 			+ " ORDER BY MAX(m.year) - MIN(m.year)";
 	
 	@Query(value = QUERY)

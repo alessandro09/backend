@@ -19,8 +19,6 @@ import liquibase.statement.SqlStatement;
 import liquibase.statement.core.RawSqlStatement;
 
 public class CustomSqlGenerateRefs implements CustomSqlChange {
-	private final String regex = "(?=and|,)";
-	
 	private final String mainSql = ""
 			+ "select MOVIE.ID,"
 			+ "       case when PRODUCER.ID is null then ORIGIN.PRODUCERS else null end PRODUCERS,"
@@ -59,8 +57,6 @@ public class CustomSqlGenerateRefs implements CustomSqlChange {
 		var statements = queries.stream().map(it -> new RawSqlStatement(it)).collect(Collectors.toList());
 		
 		return statements.toArray(new SqlStatement[] {});
-		
-//		return new SqlStatement[] {};
 	}
 	
 	private void resolveMany(ArrayList<String> queries, JdbcConnection cc, Long movieId, String tableName, String allNames, Long id) throws SQLException, DatabaseException {

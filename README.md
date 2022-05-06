@@ -16,10 +16,12 @@ Outra opção é importar o projeto para IDE de sua preferencia e executar `br.c
 # Endpoints disponíveis e informações para acesso
 
 ### Acesso ao console do h2
-http://localhost:8080/h2
-jdbc/url: jdbc:h2:./data/appdb
-usuário: admin
-senha: admin
+**host:** http://localhost:8080/h2<br>
+**jdbc/url:** jdbc:h2:./data/appdb-new<br>
+**usuário:** admin<br>
+**senha:** admin<br>
+
+** **Para evitar problemas, optei por criar um novo banco. Este pode ser excluído que será recriado toda a vez que a aplicação for reiniciada caso ainda não exista **
 
 ### Acesso ao endpoint da atividade
 http://localhost:8080/producer/extreme-producer-awards

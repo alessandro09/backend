@@ -2,6 +2,7 @@ package br.com.texo.testback.backend.entities;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -11,16 +12,17 @@ public class Movie {
 	@Id
 	private Long id;
 	
+	@Column(name = "ayear")
 	private Integer year;
 	
 	private String title;
 	
 	private Boolean winner;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "movie")
 	private List<ProducerMovie> producerMovie;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "movie")
 	private List<StudioMovie> studioMovie;
 
 	public Long getId() { return id; }

@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.joining;
 
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 import liquibase.change.custom.CustomSqlChange;
 import liquibase.database.Database;

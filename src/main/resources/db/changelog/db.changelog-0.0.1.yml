@@ -4,36 +4,36 @@ databaseChangeLog:
      author:  alessandro.abegg
      changes:
        - createTable:
-           tableName: ORIGIN  
+           tableName: origin  
            columns:
              - column:  
-                 name: YEAR
+                 name: year
                  type: integer
                  constraints:
                    nullable: false
              - column:
-                 name: TITLE
+                 name: title
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: STUDIOS
+                 name: studios
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: PRODUCERS
+                 name: producers
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: WINNER
+                 name: winner
                  type: boolean
        - createTable:
-           tableName: STUDIO  
+           tableName: studio  
            columns:
              - column:  
-                 name: ID
+                 name: id
                  type: bigint
                  autoIncrement: true
                  constraints:
@@ -43,10 +43,10 @@ databaseChangeLog:
                  name: name
                  type: varchar(200)
        - createTable:
-           tableName: PRODUCER  
+           tableName: producer  
            columns:
              - column:  
-                 name: ID
+                 name: id
                  type: bigint
                  autoIncrement: true
                  constraints:
@@ -56,47 +56,47 @@ databaseChangeLog:
                  name: name
                  type: varchar(200)
        - createTable:
-           tableName: MOVIE  
+           tableName: movie  
            columns:
              - column:  
-                 name: ID
+                 name: id
                  type: bigint
                  autoIncrement: true
                  constraints:
                    nullable: false
                    primaryKey: true
              - column:  
-                 name: YEAR
+                 name: ayear
                  type: integer
                  constraints:
                    nullable: false
              - column:  
-                 name: TITLE
+                 name: title
                  type: varchar(200)
                  constraints:
                    nullable: false
              - column:
-                 name: WINNER
+                 name: winner
                  type: boolean
        - createTable:
-           tableName: STUDIO_MOVIE
+           tableName: studio_movie
            columns:
              - column:  
-                 name: ID
+                 name: id
                  type: bigint
                  autoIncrement: true
                  constraints:
                    nullable: false
                    primaryKey: true
              - column:  
-                 name: ID_STUDIO
+                 name: id_studio
                  type: bigint
                  constraints:
                    nullable: false
                    foreignKeyName: fk_studio_studio
                    references: STUDIO(ID)
              - column:  
-                 name: ID_MOVIE
+                 name: id_movie
                  type: bigint
                  constraints:
                    nullable: false
@@ -106,21 +106,21 @@ databaseChangeLog:
            tableName: producer_movie
            columns:
              - column:  
-                 name: ID
+                 name: id
                  type: bigint
                  autoIncrement: true
                  constraints:
                    nullable: false
                    primaryKey: true
              - column:  
-                 name: ID_PRODUCER
+                 name: id_producer
                  type: bigint
                  constraints:
                    nullable: false
                    foreignKeyName: fk_producer_producer
                    references: PRODUCER(ID)
              - column:  
-                 name: ID_MOVIE
+                 name: id_movie
                  type: bigint
                  constraints:
                    nullable: false
@@ -137,22 +137,22 @@ databaseChangeLog:
            file: movielist.csv
            separator: ;
            usePreparedStatements: true
-           tableName: ORIGIN
+           tableName: origin
            columns:
              - column:
-               header: YEAR
+               header: year
                type: integer
              - column:
-               header: TITLE
+               header: year
                type: varchat(100)
              - column:
-               header: STUDIOS
+               header: year
                type: varchat(100)
              - column:
-               header: PRODUCERS
+               header: producers
                type: varchat(100)
              - column:
-               header: WINNER
+               header: winner
                type: boolean
 
   - changeSet:
@@ -163,34 +163,27 @@ databaseChangeLog:
            class: br.com.texo.testback.backend.services.liquibase.CustomLoadStudiosAndProducers
 
   - changeSet:
-     id: load-MOVIE
+     id: load-movie
      author:  alessandro.abegg
      changes:
        - sql:
            sql: "
-             INSERT INTO MOVIE(\"YEAR\", TITLE, WINNER)
-             SELECT \"YEAR\",
-                    TITLE,
-                    WINNER
-               FROM ORIGIN"
+             INSERT INTO movie(ayear, title, winner)
+             SELECT \"year\",
+                    title,
+                    winner
+               FROM origin"
 
   - changeSet:
-     id: load-ref-movie-to-studio
-     author:  alessandro.abegg
-     changes:
-       - customChange:
-           class: br.com.texo.testback.backend.services.liquibase.CustomLoadStudiosAndProducers
-
-  - changeSet:
-     id: load-ref-movie
+     id: load-movie-refs
      author:  alessandro.abegg
      changes:
        - customChange:
            class: br.com.texo.testback.backend.services.liquibase.CustomSqlGenerateRefs
 
-#  - changeSet:
-#      id:  dropTable-ORIGIN
-#      author:  liquibase-docs
-#      changes:
-#        - dropTable:
-#            tableName:  ORIGIN
+  - changeSet:
+      id:  dropTable-ORIGIN
+      author:  liquibase-docs
+      changes:
+        - dropTable:
+            tableName:  ORIGIN

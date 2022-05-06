@@ -19,7 +19,7 @@ import br.com.texo.testback.backend.bean.ResponseBean;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ProducerControllerTest {
 	
-	public static final String EXPECTED_RESULT = "{\"min\":[{\"previousWin\":1986,\"followingWin\":1987,\"interval\":1,\"producer\":\"Yoram Globus and Menahem Golan\"},{\"previousWin\":2011,\"followingWin\":2012,\"interval\":1,\"producer\":\"Wyck Godfrey, Stephenie Meyer and Karen Rosenfelt\"}],\"max\":[{\"previousWin\":1980,\"followingWin\":1989,\"interval\":9,\"producer\":\"Jerry Weintraub\"},{\"previousWin\":1985,\"followingWin\":1993,\"interval\":8,\"producer\":\"Dino De Laurentiis\"}]}";
+	public static final String EXPECTED_RESULT = "{\"min\":[{\"previousWin\":1990,\"followingWin\":1991,\"interval\":1,\"producer\":\"Joel Silver\"},{\"previousWin\":1984,\"followingWin\":1990,\"interval\":6,\"producer\":\"Bo Derek\"}],\"max\":[{\"previousWin\":1985,\"followingWin\":1994,\"interval\":9,\"producer\":\"Buzz Feitshans\"},{\"previousWin\":2002,\"followingWin\":2015,\"interval\":13,\"producer\":\"Matthew Vaughn\"}]}";
 	
 	@LocalServerPort
 	private int port;
@@ -29,7 +29,7 @@ class ProducerControllerTest {
 
 	@Test
 	void shouldReturnTwoProducersInEachExtremeOfAwards() throws JsonProcessingException {
-		var response = restTemplate.getForObject("http://localhost:" + port + "/producer/extreme", ResponseBean.class);
+		var response = restTemplate.getForObject("http://localhost:" + port + "/producer/extreme-producer-awards", ResponseBean.class);
 		
 		var result = new ObjectMapper().writeValueAsString(response);
 		

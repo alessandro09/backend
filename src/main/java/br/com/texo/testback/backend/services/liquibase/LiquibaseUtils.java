@@ -13,7 +13,7 @@ public class LiquibaseUtils {
 		return asList(value.split("(?=and\\s+|,)"))
 				.stream()
 				.map(it -> {
-					return it.replaceAll("and\s+|,\s+", "").trim();
+					return it.replaceAll("and\\s+|,\\s+", "").trim();
 				})
 				.filter(it -> !it.isEmpty())
 				.collect(Collectors.toSet());
